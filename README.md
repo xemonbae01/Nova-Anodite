@@ -182,9 +182,7 @@ Nova-Anodite/
 - The *Dark Veil*, *Balatro* and *Soft Aurora* shader effects are adapted from open-source `ogl`-based React components and rewritten as plain WebGL. Check the original projects' licenses before redistributing.
 - Wallpapers and the logo belong to their respective creators.
 
-**License:** add a `LICENSE` file of your choice before publishing (MIT is a common pick for projects like this).
 
----
 
 <div align="center">
 
