@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "透 Nova Anodite",
+  "short_name": "Nova Anodite",
+  "version": "2.0.0",
+  "description": "Glassmorphism new tab with live WebGL backgrounds, clock, weather & quick links. By Redwan Ahemed (xemonbae01).",
+  "homepage_url": "https://github.com/xemonbae01/Nova-Anodite",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "chrome_url_overrides": { "newtab": "newtab.html" },
+  "permissions": ["storage", "search", "favicon", "geolocation"],
+  "host_permissions": [
+    "https://api.open-meteo.com/*",
+    "https://geocoding-api.open-meteo.com/*"
+  ]
+}

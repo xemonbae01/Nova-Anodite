@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New Tab</title>
+<link rel="icon" href="icons/icon-48.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="rough" x="-5%" y="-10%" width="110%" height="125%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+  <div id="bgA" class="bg on"></div>
+  <div id="bgB" class="bg"></div>
+  <div id="liveHost"></div>
+  <div id="dim"></div>
+  <div id="vig"></div>
+  <div id="splat"></div>
+  <div id="grain"></div>
+
+  <div id="weather" class="glass hidden">
+    <span id="wIcon">☀️</span>
+    <div class="wtxt"><b id="wTemp">--</b><small id="wDesc"></small></div>
+    <div class="wtxt right"><small id="wHL"></small><small id="wCity"></small></div>
+  </div>
+
+  <main>
+    <header class="tag">
+      <div class="brand-shadow" aria-hidden="true">Ash Redwan</div>
+      <h1 id="brand" class="brand">Ash Redwan</h1>
+      <div id="drips" class="drips" aria-hidden="true"></div>
+    </header>
+
+    <section class="glass clock-card">
+      <i class="tape t1"></i><i class="tape t2"></i><i class="halftone"></i>
+      <div id="time">00:00</div>
+      <div id="date"></div>
+    </section>
+
+    <form id="searchForm" class="glass search">
+      <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+      <input id="q" type="text" placeholder="Spray a search…" autocomplete="off" autofocus>
+      <kbd>/</kbd>
+    </form>
+
+    <nav id="links"></nav>
+  </main>
+
+  <button id="gear" class="glass" aria-label="Settings (double-tap anywhere to toggle)">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
+  </button>
+  <div id="toast" class="glass hidden">Double-tap anywhere to open settings</div>
+
+  <aside id="panel" class="glass hidden">
+    <div class="phead"><h2>Customize</h2><button id="closeP" class="x" aria-label="Close">×</button></div>
+
+    <h3>Title</h3>
+    <div class="row">
+      <input id="titleIn" type="text" maxlength="24" placeholder="Your name or tagline">
+      <button id="titleReset" class="btn" type="button">Reset</button>
+    </div>
+    <small class="hint">Leave it empty to hide the title.</small>
+
+    <h3>Style</h3>
+    <label class="row"><input id="accentAuto" type="checkbox"> Auto accent from wallpaper</label>
+    <label class="row">Custom accent <input id="accent" type="color"></label>
+    <label class="row"><input id="fx" type="checkbox"> Graffiti effects (drips, splatter, grain)</label>
+
+    <h3>Glass</h3>
+    <label>Transparency <input id="glass" type="range" min="0" max="0.6" step="0.01"></label>
+    <label>Blur <input id="blur" type="range" min="0" max="40" step="1"></label>
+    <label>Background dim <input id="dimR" type="range" min="0" max="0.8" step="0.01"></label>
+
+    <h3>Live background</h3>
+    <div class="chips" id="chips">
+      <button type="button" class="chip" data-live="liquid">Liquid</button>
+      <button type="button" class="chip" data-live="darkveil">Dark Veil</button>
+      <button type="button" class="chip" data-live="balatro">Balatro</button>
+      <button type="button" class="chip" data-live="aurora">Soft Aurora</button>
+      <button type="button" class="chip" data-live="none">Images (static wallpapers)</button>
+    </div>
+    <small id="lmsg" class="hint"></small>
+
+    <div class="fxset hidden" data-for="liquid">
+      <div id="pals" class="pals"></div>
+      <div class="cols"><input id="lvL1" type="color"><input id="lvL2" type="color"><input id="lvL3" type="color"><small class="hint">deep / main / glow</small></div>
+      <label>Ribbon size <input id="lvLS" type="range" min="0.3" max="1.6" step="0.05"></label>
+    </div>
+    <div class="fxset hidden" data-for="darkveil">
+      <label>Hue shift <input id="lvHue" type="range" min="0" max="360" step="1"></label>
+      <label>Warp <input id="lvWarp" type="range" min="0" max="1" step="0.01"></label>
+      <label>Grain <input id="lvNoise" type="range" min="0" max="0.2" step="0.005"></label>
+    </div>
+    <div class="fxset hidden" data-for="balatro">
+      <div class="cols"><input id="lvB1" type="color"><input id="lvB2" type="color"><input id="lvB3" type="color"><small class="hint">3 paint colors</small></div>
+      <label>Contrast <input id="lvBC" type="range" min="1" max="6" step="0.1"></label>
+      <label class="row"><input id="lvBM" type="checkbox"> Mouse interaction</label>
+    </div>
+    <div class="fxset hidden" data-for="aurora">
+      <div class="cols"><input id="lvA1" type="color"><input id="lvA2" type="color"><small class="hint">2 aurora colors</small></div>
+      <label>Brightness <input id="lvAB" type="range" min="0.3" max="2" step="0.05"></label>
+      <label class="row"><input id="lvAM" type="checkbox"> Mouse interaction</label>
+    </div>
+    <div class="fxset hidden" data-for="any">
+      <label>Vibrance <input id="lvVib" type="range" min="0.8" max="2" step="0.05"></label>
+      <label>Darkness overlay <input id="lvDim" type="range" min="0" max="0.6" step="0.01"></label>
+      <label>Animation speed <input id="lvSpeed" type="range" min="0.1" max="2.5" step="0.05"></label>
+      <label>Quality
+        <select id="lvQ"><option value="0.5">Low (fastest)</option><option value="0.75">Medium</option><option value="1">High</option><option value="2">Ultra (sharpest)</option></select>
+      </label>
+      <label class="row"><input id="lvSaver" type="checkbox"> Battery saver (30 fps)</label>
+    </div>
+
+    <h3>Images</h3>
+    <label>Mode
+      <select id="mode">
+        <option value="random">Random</option>
+        <option value="cycle">Cycle in order</option>
+        <option value="fixed">Fixed (pick below)</option>
+      </select>
+    </label>
+    <label>Slideshow timer
+      <select id="slide">
+        <option value="0">Off</option>
+        <option value="10">Every 10 seconds</option>
+        <option value="30">Every 30 seconds</option>
+        <option value="60">Every minute</option>
+        <option value="300">Every 5 minutes</option>
+        <option value="900">Every 15 minutes</option>
+      </select>
+    </label>
+    <small class="hint">Slideshow runs in Random or Cycle mode. Fixed pauses it.</small>
+    <div id="thumbs"></div>
+    <div class="row">
+      <label class="btn">Add images<input id="upload" type="file" accept="image/*" multiple hidden></label>
+      <button id="clearUp" class="btn" type="button">Remove added</button>
+    </div>
+
+    <h3>Weather</h3>
+    <div class="row">
+      <input id="city" type="text" placeholder="City name">
+      <button id="citySet" class="btn" type="button">Set</button>
+      <button id="locBtn" class="btn" type="button" title="Use my location">📍</button>
+    </div>
+    <small id="wmsg" class="hint"></small>
+    <label>Units
+      <select id="units"><option value="c">Celsius °C</option><option value="f">Fahrenheit °F</option></select>
+    </label>
+
+    <h3>Quick links</h3>
+    <div id="linkList"></div>
+    <div class="row">
+      <input id="linkName" type="text" placeholder="Name">
+      <input id="linkUrl" type="text" placeholder="example.com">
+      <button id="linkAdd" class="btn" type="button">+</button>
+    </div>
+
+    <h3>Clock</h3>
+    <label class="row"><input id="hour12" type="checkbox"> 12-hour format</label>
+  <div class="about">
+      <img src="icons/icon-48.png" alt="" width="40" height="40">
+      <div><b>透 Nova Anodite</b>
+        <small>by Redwan Ahemed · <a href="https://github.com/xemonbae01/Nova-Anodite" target="_blank" rel="noopener">GitHub</a></small></div>
+    </div>
+  </aside>
+
+  <script src="live.js"></script>
+  <script src="newtab.js"></script>
+</body>
+</html>
