@@ -26,7 +26,7 @@ Live WebGL backgrounds · Material clock · Weather · Sticker-style quick links
   </tr>
   <tr>
     <td align="center"><img src="PASTE_PC_SCREENSHOT_URL_HERE" alt="Nova Anodite on desktop" width="560"></td>
-    <td align="center"><img src="PASTE_MOBILE_SCREENSHOT_URL_HERE" alt="Nova Anodite on mobile" width="240"></td>
+    <td align="center"><img src="https://ibb.co.com/xST8dJQq" alt="Nova Anodite on mobile" width="240"></td>
   </tr>
 </table>
 
